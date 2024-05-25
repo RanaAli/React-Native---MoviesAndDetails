@@ -1,0 +1,6 @@
+// type movieListEntity = {
+//     list = [
+//         {}
+//     ]
+// }
+

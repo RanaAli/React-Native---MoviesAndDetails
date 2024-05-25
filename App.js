@@ -1,40 +1,76 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react'
-import {fetchMoviesList} from "./data/ApiService";
+// import {fetchMoviesList} from "./data/ApiService";
+import {API_HEADER, API_TOKEN} from "./data/ApiConstants";
+import {MovieItemView} from "./presentation/list/MovieItemView";
 
 export default function App() {
+    const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    useEffect(() => {
+
+    const fetchMoviesList = async () => {
         setIsLoading(true)
+        await fetch("https://api.themoviedb.org/3/movie/popular", API_HEADER)
+            .then(res => res.json())
+            .then(json => {
+                console.log(json)
+                setData(json)
+            })
+            .catch(err => {
+                console.log(err)
+                setError(err)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+
+    }
+
+    useEffect(() => {
+        // setIsLoading(true)
         fetchMoviesList()
-        setIsLoading(false)
+        // setIsLoading(false)
+
     }, [])
 
 
     if (isLoading) {
         return (
-            <View style={styles.container}>
-                <ActivityIndicator visible={isLoading} size='large'/>
-                <Text>Loading...</Text>
-            </View>
+            <SafeAreaView style={{flex: 1}}>
+                <View style={styles.container}>
+                    <ActivityIndicator visible={isLoading} size='large'/>
+                    <Text>Loading...</Text>
+                </View>
+            </SafeAreaView>
         );
     }
-
+    console.log('data = ' + data.page)
     return (
-        <View style={styles.container}>
-            <Text>This is a The Movie and Details app</Text>
-            <StatusBar style="auto"/>
-        </View>
+        <SafeAreaView style={{flex: 1, backgroundColor:"grey"}}>
+            <FlatList
+                style={{paddingVertical: 48, gap: 16}}
+                numColumns={3}
+                data={data.results}
+                renderItem={({item}) => MovieItemView(item)}
+                columnWrapperStyle={{
+                    gap: 8,
+                    flexWrap: "wrap",
+                    justifyContent: "space-evenly",
+                    flex: 1,
+                    alignItems: "stretch"
+
+                }}>
+            </FlatList>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'plum',
         alignItems: 'center',
         justifyContent: 'center',
     },
