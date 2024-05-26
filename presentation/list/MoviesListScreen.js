@@ -1,10 +1,10 @@
-import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react'
 // import {fetchMoviesList} from "./data/ApiService";
 import {API_HEADER} from "../../data/ApiConstants";
 import {MovieItemView} from "./MovieItemView";
 
-export default function MoviesListScreen() {
+export default function MoviesListScreen({navigation}) {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -46,7 +46,9 @@ export default function MoviesListScreen() {
                     style={{gap: 16}}
                     numColumns={3}
                     data={data.results}
-                    renderItem={({item}) => MovieItemView(item)}
+                    renderItem={({item}) => MovieItemView(item, () => {
+                        navigation.navigate('MoviesDetails');
+                    })}
                     columnWrapperStyle={{
                         gap: 8,
                         flexWrap: "wrap",
