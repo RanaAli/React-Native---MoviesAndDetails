@@ -1,5 +1,6 @@
 import {Text, View, Image, StyleSheet} from "react-native";
 import {API_HEADER, THUMB_BASE_URL} from "../../data/ApiConstants";
+import Moment from "moment"
 
 export function MovieItemView(item) {
     return (
@@ -49,14 +50,18 @@ export function MovieItemView(item) {
                 backgroundColor: "black"
             }}>
                 <View style={{flexDirection: "row", alignSelf: "center"}}>
-                    <Text style={{color: "white", fontSize: 10, marginBottom: 4}}>10</Text>
+                    <Text style={{
+                        color: "white",
+                        fontSize: 10,
+                        marginBottom: 4
+                    }}>{Math.trunc(item.vote_average * 10)}</Text>
                     <Text style={{color: "white", fontSize: 6}}>%</Text>
                 </View>
             </View>
 
             <View style={{paddingHorizontal: 8, height: 56}}>
                 <Text numberOfLines={2} style={{fontSize: 12, fontWeight: "bold",}}>{item.title}</Text>
-                <Text style={{fontSize: 10}}>{item.release_date}</Text>
+                <Text style={{fontSize: 10}}>{Moment(item.release_date).local("en").format('D MMM, yyyy')}</Text>
             </View>
         </View>
     );
