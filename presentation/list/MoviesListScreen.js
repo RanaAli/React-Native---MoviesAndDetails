@@ -47,7 +47,9 @@ export default function MoviesListScreen({navigation}) {
                     numColumns={3}
                     data={data.results}
                     renderItem={({item}) => MovieItemView(item, () => {
-                        navigation.navigate('MoviesDetails');
+                        navigation.navigate('MoviesDetails', {
+                            movie: item
+                        });
                     })}
                     columnWrapperStyle={{
                         gap: 8,
