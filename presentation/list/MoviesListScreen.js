@@ -1,6 +1,5 @@
 import {ActivityIndicator, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react'
-// import {fetchMoviesList} from "./data/ApiService";
 import {API_HEADER} from "../../data/ApiConstants";
 import {MovieItemView} from "./MovieItemView";
 
@@ -8,7 +7,6 @@ export default function MoviesListScreen({navigation}) {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-
 
     const fetchMoviesList = async () => {
         setIsLoading(true)

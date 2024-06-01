@@ -10,27 +10,25 @@ export default function ({navigation}) {
     const [onError, setOnError] = useState('');
 
     useEffect(() => {
-        fetchGenre(setIsLoading, setOnError)
-            .then(navigation.navigate('MoviesList'));
-    }, [])
+        fetchGenre(setIsLoading, setOnError, setOnSuccess).then(() => {
+            if (onSuccess) navigation.navigate('MoviesList')
+        })
+    }, [onSuccess])
 
     return (
-        isLoading ?
-            <View style={{
+        <View
+            style={{
                 flex: 1,
                 backgroundColor: 'Red'
             }}>
-                <ActivityIndicator visible={isLoading} size="large"/>
-                <Text>Loading...</Text>
-            </View>
-            :
-            onError !== '' ?
-                <View style={{flex: 1, backgroundColor: 'yellow'}}>
-                    <Text>{onError}</Text>
-                </View>
-                : <View style={{flex: 1,}}>
-                    <Text>Success</Text>
-                </View>
 
+            {isLoading && <ActivityIndicator visible={isLoading} size="large"/>}
+
+            {onError.trim() === '' && <Text style={{padding: 16}}>{onError}</Text>}
+
+        </View>
     );
 }
+
+
+
