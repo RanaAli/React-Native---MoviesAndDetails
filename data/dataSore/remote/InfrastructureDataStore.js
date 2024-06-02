@@ -1,6 +1,6 @@
 import {callApi} from "../../MyApiCallExecutor";
 
-export let GENRE = {}
+export let GENRE = []
 
 export const fetchGenre = async (onLoading, onError, onSuccess) =>
     callApi(
@@ -8,8 +8,7 @@ export const fetchGenre = async (onLoading, onError, onSuccess) =>
         onLoading,
         onError,
         (res) => {
-            GENRE = res
-            console.log("GENRE = " + GENRE.genres.length)
+            GENRE = res.genres
             onSuccess(true)
         }
     )
